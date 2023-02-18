@@ -8,11 +8,19 @@ public enum TeamColor
 {
     Black, White
 }
-
+/*
 public enum PieceType
 {
     Pawn, Bishop, Knight, Rook, Queen, King
 }
+*/
+
+public enum PieceType
+{
+    PawnBlack, BishopBlack, KnightBlack, RookBlack, QueenBlack, KingBlack,
+    PawnWhite, BishopWhite, KnightWhite, RookWhite, QueenWhite, KingWhite
+}
+
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Board/Layout")]
 public class BoardLayout : ScriptableObject
