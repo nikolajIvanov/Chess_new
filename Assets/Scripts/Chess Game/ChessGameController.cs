@@ -86,10 +86,17 @@ public class ChessGameController : MonoBehaviour
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, team, board);
-
+        
+        if (newPiece.team == TeamColor.Black)
+        {
+            newPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
+            //newPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        
+        /*
         Material teamMaterial = pieceCreator.GetTeamMaterial(team);
         newPiece.SetMaterial(teamMaterial);
-
+        */
         board.SetPieceOnBoard(squareCoords, newPiece);
 
         ChessPlayer currentPlayer = team == TeamColor.White ? whitePlayer : blackPlayer;

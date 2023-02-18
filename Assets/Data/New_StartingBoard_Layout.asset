@@ -26,7 +26,7 @@ MonoBehaviour:
     pieceType: 10
     teamColor: 1
   - position: {x: 5, y: 1}
-    pieceType: 8
+    pieceType: 11
     teamColor: 1
   - position: {x: 6, y: 1}
     pieceType: 7
