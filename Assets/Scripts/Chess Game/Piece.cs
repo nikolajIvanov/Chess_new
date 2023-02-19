@@ -52,6 +52,14 @@ public abstract class Piece : MonoBehaviour
 		hasMoved = true;
 		tweener.MoveTo(transform, targetPosition);
 	}
+	
+	public virtual void AnimationMovePiece(Vector2Int coords)
+	{
+		Vector3 targetPosition = board.CalculatePositionFromCoords(coords);
+		occupiedSquare = coords;
+		hasMoved = true;
+		tweener.MoveTo(transform, targetPosition);
+	} 
 
 
 	protected void TryToAddMove(Vector2Int coords)

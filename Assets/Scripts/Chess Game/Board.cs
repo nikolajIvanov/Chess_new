@@ -158,6 +158,7 @@ public class Board : MonoBehaviour
         Piece piece = GetPieceOnSquare(coords);
         if (piece && !selectedPiece.IsFromSameTeam(piece))
         {
+            /*
             switch (piece.tag)
             {
                 case "Pawn":
@@ -185,11 +186,13 @@ public class Board : MonoBehaviour
                     TakePiece(piece);
                     break;
             }
-            if (selectedPiece.tag == "Queen")
+            */
+            if (selectedPiece.tag == "Queen" && piece.CompareTag("Rook"))
             {
                 if (selectedPiece.mAnimator != null)
                 {
                     selectedPiece.mAnimator.SetTrigger("Queen_kill");
+                    piece.mAnimator.SetTrigger("Rook_destroy");
                     StartCoroutine(WaitAndTakePiece(piece, 2f));
                     
                 }
@@ -221,8 +224,16 @@ public class Board : MonoBehaviour
 
     public void PromotePiece(Piece piece)
     {
+        if (piece.tag == "Pawn")
+        {
+            if (piece.mAnimator != null)
+            {
+                piece.mAnimator.SetTrigger("Pawn_Promotion");
+                StartCoroutine(WaitAndTakePiece(piece, 2f));
+            }
+        }
         TakePiece(piece);
-        chessController.CreatePieceAndInitialize(piece.occupiedSquare, piece.team, typeof(Queen));
+        chessController.CreatePieceAndInitialize(piece.occupiedSquare, piece.team, typeof(QueenWhite));
     }
 
     internal void OnGameRestarted()
