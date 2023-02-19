@@ -17,7 +17,7 @@ public class Board : MonoBehaviour
     private Piece selectedPiece;
     private ChessGameController chessController;
     private SquareSelectorCreator squareSelector;
-    private Animator mAnimator;
+    // public Animator mAnimator;
 
 
     private void Awake()
@@ -158,13 +158,39 @@ public class Board : MonoBehaviour
         Piece piece = GetPieceOnSquare(coords);
         if (piece && !selectedPiece.IsFromSameTeam(piece))
         {
+            switch (piece.tag)
+            {
+                case "Pawn":
+                    if (piece.mAnimator != null)
+                    {
+                        piece.mAnimator.SetTrigger("Pawn_Death");
+                        StartCoroutine(WaitAndTakePiece(piece, 52f));
+                    }
+                    break;
+                case "Rook":
+                    if (piece.mAnimator != null)
+                    {
+                        piece.mAnimator.SetTrigger("Rook_destroy");
+                        StartCoroutine(WaitAndTakePiece(piece, 2f));
+                    }
+                    break;
+                case "King":
+                    if (piece.mAnimator != null)
+                    {
+                        piece.mAnimator.SetTrigger("King_death");
+                        StartCoroutine(WaitAndTakePiece(piece, 2f));
+                    }
+                    break;
+                default:
+                    TakePiece(piece);
+                    break;
+            }
             if (selectedPiece.tag == "Queen")
             {
                 if (selectedPiece.mAnimator != null)
                 {
-
                     selectedPiece.mAnimator.SetTrigger("Queen_kill");
-                    //StartCoroutine(WaitAndTakePiece(piece, 5f));
+                    StartCoroutine(WaitAndTakePiece(piece, 2f));
                     
                 }
             }
@@ -172,19 +198,6 @@ public class Board : MonoBehaviour
             {
                 TakePiece(piece);
             }
-            /*
-            if (piece.CompareTag("Pawn"))
-            {
-                if (piece.mAnimator != null)
-                {
-                    mAnimator = piece.GetComponent<Animator>();
-                    mAnimator.SetTrigger("PawnBlack_Death");
-                    StartCoroutine(WaitAndTakePiece(piece, 5f));
-                }
-
-            }
-            */
-            // TakePiece(piece);
         }
     }
     
