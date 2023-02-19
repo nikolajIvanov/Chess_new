@@ -233,7 +233,15 @@ public class Board : MonoBehaviour
             }
         }
         TakePiece(piece);
-        chessController.CreatePieceAndInitialize(piece.occupiedSquare, piece.team, typeof(QueenWhite));
+        if (piece.team ==TeamColor.Black)
+        {
+            chessController.CreatePieceAndInitialize(piece.occupiedSquare, piece.team, typeof(QueenBlack));
+        }
+        else
+        {
+            chessController.CreatePieceAndInitialize(piece.occupiedSquare, piece.team, typeof(QueenWhite));
+        }
+        
     }
 
     internal void OnGameRestarted()
