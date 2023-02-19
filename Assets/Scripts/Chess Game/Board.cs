@@ -17,13 +17,18 @@ public class Board : MonoBehaviour
     private Piece selectedPiece;
     private ChessGameController chessController;
     private SquareSelectorCreator squareSelector;
-    // public Animator mAnimator;
+
+    private Vector3 cameraPosition;
+    private Quaternion cameraRotation;
+
 
 
     private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
+        cameraPosition = Camera.main.transform.position;
+        cameraRotation = Camera.main.transform.rotation;
     }
 
     public void SetDependencies(ChessGameController chessController)
@@ -187,14 +192,19 @@ public class Board : MonoBehaviour
                     break;
             }
             */
-            if (selectedPiece.tag == "Queen" && piece.CompareTag("Rook"))
+            if (selectedPiece.CompareTag("Queen") && piece.CompareTag("Rook"))
             {
                 if (selectedPiece.mAnimator != null)
                 {
+
+                    Camera.main.transform.position = selectedPiece.transform.position + new Vector3(5.5f, 4f, -2f);
+                    Camera.main.transform.rotation = Quaternion.Euler(20f, -90f, 0f);
                     selectedPiece.mAnimator.SetTrigger("Queen_kill");
                     piece.mAnimator.SetTrigger("Rook_destroy");
-                    StartCoroutine(WaitAndTakePiece(piece, 2f));
-                    
+                    StartCoroutine(WaitAndTakePiece(piece, 5f));
+                    Camera.main.transform.position = cameraPosition;
+                    Camera.main.transform.rotation = cameraRotation;
+
                 }
             }
             else
