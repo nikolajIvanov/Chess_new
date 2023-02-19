@@ -17,7 +17,7 @@ public abstract class Piece : MonoBehaviour
 
 	private IObjectTweener tweener;
 	
-	[SerializeField] public Animator mAnimator;
+	[SerializeField] public Animator animator;
 
 	public abstract List<Vector2Int> SelectAvaliableSquares();
 
@@ -27,7 +27,7 @@ public abstract class Piece : MonoBehaviour
 		tweener = GetComponent<IObjectTweener>();
 		materialSetter = GetComponent<MaterialSetter>();
 		hasMoved = false;
-		mAnimator = GetComponent<Animator>();
+		animator = GetComponent<Animator>();
 	}
 
 	public void SetMaterial(Material selectedMaterial)

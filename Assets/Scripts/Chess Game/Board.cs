@@ -163,48 +163,18 @@ public class Board : MonoBehaviour
         Piece piece = GetPieceOnSquare(coords);
         if (piece && !selectedPiece.IsFromSameTeam(piece))
         {
-            /*
-            switch (piece.tag)
-            {
-                case "Pawn":
-                    if (piece.mAnimator != null)
-                    {
-                        piece.mAnimator.SetTrigger("Pawn_Death");
-                        StartCoroutine(WaitAndTakePiece(piece, 52f));
-                    }
-                    break;
-                case "Rook":
-                    if (piece.mAnimator != null)
-                    {
-                        piece.mAnimator.SetTrigger("Rook_destroy");
-                        StartCoroutine(WaitAndTakePiece(piece, 2f));
-                    }
-                    break;
-                case "King":
-                    if (piece.mAnimator != null)
-                    {
-                        piece.mAnimator.SetTrigger("King_death");
-                        StartCoroutine(WaitAndTakePiece(piece, 2f));
-                    }
-                    break;
-                default:
-                    TakePiece(piece);
-                    break;
-            }
-            */
             if (selectedPiece.CompareTag("Queen") && piece.CompareTag("Rook"))
             {
-                if (selectedPiece.mAnimator != null)
+                if (selectedPiece.animator != null)
                 {
-
-                    Camera.main.transform.position = selectedPiece.transform.position + new Vector3(5.5f, 4f, -2f);
-                    Camera.main.transform.rotation = Quaternion.Euler(20f, -90f, 0f);
-                    selectedPiece.mAnimator.SetTrigger("Queen_kill");
-                    piece.mAnimator.SetTrigger("Rook_destroy");
+                    /// Mit dieser Kameraeinstellung kann man die Animation besser verfolgen.
+                    //Camera.main.transform.position = selectedPiece.transform.position + new Vector3(5.5f, 4f, -2f);
+                    //Camera.main.transform.rotation = Quaternion.Euler(20f, -90f, 0f);
+                    
+                    //selectedPiece.MovePiece(piece.occupiedSquare + new Vector2Int(1, 3));
+                    selectedPiece.animator.SetTrigger("Queen_kill");
+                    piece.animator.SetTrigger("Rook_destroy");
                     StartCoroutine(WaitAndTakePiece(piece, 5f));
-                    Camera.main.transform.position = cameraPosition;
-                    Camera.main.transform.rotation = cameraRotation;
-
                 }
             }
             else
@@ -217,7 +187,11 @@ public class Board : MonoBehaviour
     
     private IEnumerator WaitAndTakePiece(Piece piece, float waitTime)
     {
+        Camera.main.transform.position = cameraPosition;
+        Camera.main.transform.rotation = cameraRotation;
         yield return new WaitForSeconds(waitTime);
+        Camera.main.transform.position = cameraPosition;
+        Camera.main.transform.rotation = cameraRotation;
         TakePiece(piece);
     }
 
@@ -231,18 +205,18 @@ public class Board : MonoBehaviour
         }
     }
 
-
+    
     public void PromotePiece(Piece piece)
     {
-        if (piece.tag == "Pawn")
+        if (piece.CompareTag("Pawn"))
         {
-            if (piece.mAnimator != null)
+            if (piece.animator != null)
             {
-                piece.mAnimator.SetTrigger("Pawn_Promotion");
+                piece.animator.SetTrigger("Pawn_Promotion");
                 StartCoroutine(WaitAndTakePiece(piece, 2f));
             }
         }
-        TakePiece(piece);
+        
         if (piece.team ==TeamColor.Black)
         {
             chessController.CreatePieceAndInitialize(piece.occupiedSquare, piece.team, typeof(QueenBlack));
@@ -253,7 +227,6 @@ public class Board : MonoBehaviour
         }
         
     }
-
     internal void OnGameRestarted()
     {
         selectedPiece = null;

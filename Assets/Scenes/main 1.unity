@@ -1031,7 +1031,6 @@ MonoBehaviour:
   - {fileID: 5270746723556214851, guid: 9a31f74b05e539b469cda3d6552db7a9, type: 3}
   blackMaterial: {fileID: 2100000, guid: e5b1bb784cf0ca44799defd2ecb2778b, type: 2}
   whiteMaterial: {fileID: 2100000, guid: b183affc58864584aa8f5bcd2015aeaa, type: 2}
-  localScale: 1
 --- !u!1001 &1755878957
 PrefabInstance:
   m_ObjectHideFlags: 0
