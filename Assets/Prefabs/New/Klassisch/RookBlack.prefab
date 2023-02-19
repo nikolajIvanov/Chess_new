@@ -1717,6 +1717,7 @@ GameObject:
   - component: {fileID: -4669465724970545530}
   - component: {fileID: 470905527114674992}
   - component: {fileID: 4927058962314681483}
+  - component: {fileID: -5344616726753840226}
   m_Layer: 0
   m_Name: RookBlack
   m_TagString: Rook
@@ -1848,6 +1849,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materialSetter: {fileID: 0}
   avaliableMoves: []
+--- !u!95 &-5344616726753840226
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6689478246491880836}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4c56159858e148540a7b1925b1521369, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7110496948651544277
 GameObject:
   m_ObjectHideFlags: 0

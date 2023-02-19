@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
+using System.Threading;
 
 [RequireComponent(typeof(SquareSelectorCreator))]
 public class Board : MonoBehaviour
@@ -15,6 +17,7 @@ public class Board : MonoBehaviour
     private Piece selectedPiece;
     private ChessGameController chessController;
     private SquareSelectorCreator squareSelector;
+    private Animator mAnimator;
 
 
     private void Awake()
@@ -146,14 +149,50 @@ public class Board : MonoBehaviour
         if (CheckIfCoordinatesAreOnBoard(coords))
             grid[coords.x, coords.y] = piece;
     }
-
-    private void TryToTakeOppositePiece(Vector2Int coords)
+    /// <summary>
+    /// Diese Methode wird aufgerufen, wenn ein Spieler eine Figur des Gegnerischen Teams zerstört
+    /// </summary>
+    /// <param name="coords"></param>
+    private  void TryToTakeOppositePiece(Vector2Int coords)
     {
         Piece piece = GetPieceOnSquare(coords);
         if (piece && !selectedPiece.IsFromSameTeam(piece))
         {
-            TakePiece(piece);
+            if (selectedPiece.tag == "Queen")
+            {
+                if (selectedPiece.mAnimator != null)
+                {
+
+                    selectedPiece.mAnimator.SetTrigger("Queen_kill");
+                    //StartCoroutine(WaitAndTakePiece(piece, 5f));
+                    
+                }
+            }
+            else
+            {
+                TakePiece(piece);
+            }
+            /*
+            if (piece.CompareTag("Pawn"))
+            {
+                if (piece.mAnimator != null)
+                {
+                    mAnimator = piece.GetComponent<Animator>();
+                    mAnimator.SetTrigger("PawnBlack_Death");
+                    StartCoroutine(WaitAndTakePiece(piece, 5f));
+                }
+
+            }
+            */
+            // TakePiece(piece);
         }
+    }
+    
+    
+    private IEnumerator WaitAndTakePiece(Piece piece, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        TakePiece(piece);
     }
 
     private void TakePiece(Piece piece)

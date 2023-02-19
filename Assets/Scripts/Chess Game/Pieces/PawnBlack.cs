@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PawnBlack : Piece
 {
+    
+
     public override List<Vector2Int> SelectAvaliableSquares()
     {
         avaliableMoves.Clear();

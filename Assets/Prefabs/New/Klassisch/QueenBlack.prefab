@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1401418864860634282}
   - component: {fileID: 3592252312688780441}
   - component: {fileID: -6434920984356393146}
+  - component: {fileID: -5857723519311821877}
   m_Layer: 0
   m_Name: QueenBlack
   m_TagString: Queen
@@ -126,6 +127,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materialSetter: {fileID: 0}
   avaliableMoves: []
+--- !u!95 &-5857723519311821877
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223881431886731782}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 011755d92264bae4e98e43497aa4abf4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &867179451700529001
 GameObject:
   m_ObjectHideFlags: 0

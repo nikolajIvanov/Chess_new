@@ -18,7 +18,9 @@ public class ColliderInputReciever : InputReciever
             }
         }
     }
-
+    /// <summary>
+    /// Beim Klicken auf eine Figur wird der Prozess dahinter hier gestartet.
+    /// </summary>
     public override void OnInputRecieved()
     {
         foreach (var handler in inputHandlers)
