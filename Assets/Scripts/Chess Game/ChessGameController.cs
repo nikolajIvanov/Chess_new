@@ -3,7 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+/// <summary>
+/// Stellt die Kontrolle des Schachspiels in Unity sicher. Die Klasse ist zuständig für das Erstellen von Spielern,
+/// Figuren und dem Spielfeld. Die Methode 'CreatePieceAndInitialize' erstellt eine neue Figur und ordnet sie dem
+/// jeweiligen Spieler zu. Die Methode 'StartNewGame' initialisiert das Spiel und setzt den Status auf "Init". Die
+/// Methode 'EndTurn' beendet die Runde und prüft, ob das Spiel beendet wurde, indem es überprüft, ob der König noch
+/// auf dem Feld ist und ob der Gegner ihn bedroht. Wenn das Spiel beendet ist, wird der Status auf "Finished" gesetzt
+/// und die Methode 'OnGameFinished' des UIManager aufgerufen. Außerdem ist es möglich, das Spiel neu zu starten, indem
+/// 'RestartGame' aufgerufen wird.
+/// </summary>
 [RequireComponent(typeof(PiecesCreator))]
 public class ChessGameController : MonoBehaviour
 {
@@ -22,7 +30,14 @@ public class ChessGameController : MonoBehaviour
     private ChessPlayer activePlayer;
 
     private GameState state;
-
+    /// <summary>
+    /// Es werden alle Awake() Methoden vor dem Start des Spiels ausgeführt.
+    /// Das Spiel startet in der Klasse ChessGameController mit der Methode Start()
+    /// Klassen die eine Awake Methode haben:
+    /// ChessGameController
+    /// Pieces Creator
+    /// Board
+    /// </summary>
     private void Awake()
     {
         SetDependencies();
@@ -40,6 +55,9 @@ public class ChessGameController : MonoBehaviour
         blackPlayer = new ChessPlayer(TeamColor.Black, board);
     }
 
+    /// <summary>
+    /// Das Spiel wird hier gestartet.
+    /// </summary>
     private void Start()
     {
         StartNewGame();
@@ -66,9 +84,16 @@ public class ChessGameController : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Hier werden die Informationen vom BoardLayout geholt (BoardLayout.cs)
+    /// position
+    /// pieceType
+    /// teamColor
+    /// </summary>
+    /// <param name="layout"></param>
     private void CreatePiecesFromLayout(BoardLayout layout)
     {
+        // Die Schleife durchläuft 32 Durchgänge (layout.GetPiecesCount())
         for (int i = 0; i < layout.GetPiecesCount(); i++)
         {
             Vector2Int squareCoords = layout.GetSquareCoordsAtIndex(i);
@@ -76,6 +101,7 @@ public class ChessGameController : MonoBehaviour
             string typeName = layout.GetSquarePieceNameAtIndex(i);
 
             Type type = Type.GetType(typeName);
+            // Nachdem alle Infos geholt wurden, wird die Figur in der Methode erstellt
             CreatePieceAndInitialize(squareCoords, team, type);
         }
     }
@@ -92,7 +118,9 @@ public class ChessGameController : MonoBehaviour
             newPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
             //newPiece.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
-        
+        /// Die Methode konnte man für die Unity Asset Figuren nutzen. Das Problem bei uns war, dass jeder die
+        /// Materialien anders bezeichnet hat und somit der Aufwand deutlich Größer war.
+        /// Learning draus: Organisier dich besser als Team
         /*
         Material teamMaterial = pieceCreator.GetTeamMaterial(team);
         newPiece.SetMaterial(teamMaterial);
@@ -112,7 +140,10 @@ public class ChessGameController : MonoBehaviour
     {
         return activePlayer.team == team;
     }
-
+    /// <summary>
+    /// Diese Methode wird am Ende jeder Runde aufgerufen und es wird überprüft, ob der König sich noch auf dem Spielfeld
+    /// befindet. Falls nicht wird das Spiel beendet.
+    /// </summary>
     public void EndTurn()
     {
         GenerateAllPossiblePlayerMoves(activePlayer);
@@ -129,17 +160,17 @@ public class ChessGameController : MonoBehaviour
 
     private bool CheckIfGameIsFinished()
     {
-        Piece[] kingAttackingPieces = activePlayer.GetPieceAtackingOppositePiceOfType<King>();
+        Piece[] kingAttackingPieces = activePlayer.GetPieceAtackingOppositePiceOfType<KingBlack>();
         if (kingAttackingPieces.Length > 0)
         {
             ChessPlayer oppositePlayer = GetOpponentToPlayer(activePlayer);
-            Piece attackedKing = oppositePlayer.GetPiecesOfType<King>().FirstOrDefault();
-            oppositePlayer.RemoveMovesEnablingAttakOnPieceOfType<King>(activePlayer, attackedKing);
+            Piece attackedKing = oppositePlayer.GetPiecesOfType<KingBlack>().FirstOrDefault();
+            oppositePlayer.RemoveMovesEnablingAttakOnPieceOfType<KingBlack>(activePlayer, attackedKing);
 
             int avaliableKingMoves = attackedKing.avaliableMoves.Count;
             if (avaliableKingMoves == 0)
             {
-                bool canCoverKing = oppositePlayer.CanHidePieceFromAttack<King>(activePlayer);
+                bool canCoverKing = oppositePlayer.CanHidePieceFromAttack<KingBlack>(activePlayer);
                 if (!canCoverKing)
                     return true;
             }

@@ -3,7 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+/// <summary>
+/// Abstrakte Klasse, die jede Figur erhält. Hier werden die allgemeinen Methoden & Attribute für die einzelnen Figuren
+/// gebündelt. Vorteil einer Abstrakten Klasse ist die, dass die Klasse selbst nie Instanziiert werden kann, aber
+/// eine "Verallgemeinung" für eine Bestimmte Gruppe darlegen kann. In unserem Fall für die Figuren.
+/// </summary>
 [RequireComponent(typeof(MaterialSetter))]
 [RequireComponent(typeof(IObjectTweener))]
 public abstract class Piece : MonoBehaviour
@@ -21,6 +25,10 @@ public abstract class Piece : MonoBehaviour
 
 	public abstract List<Vector2Int> SelectAvaliableSquares();
 
+	/// <summary>
+	/// Es werden alle Awake() Methoden vor dem Start des Spiels ausgeführt.
+	/// Das Spiel startet in der Klasse ChessGameController mit der Methode Start()
+	/// </summary>
 	private void Awake()
 	{
 		avaliableMoves = new List<Vector2Int>();
@@ -72,6 +80,7 @@ public abstract class Piece : MonoBehaviour
 		this.team = team;
 		occupiedSquare = coords;
 		this.board = board;
+		// Das GameObjekt wird auf folgende Position im Bord gestellt
 		transform.position = board.CalculatePositionFromCoords(coords);
 	}
 

@@ -4,12 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Threading;
-
+/// <summary>
+/// Wird verwendet, um ein 8x8 Schachbrett zu erstellen und zu verwalten. Verfügt über Funktionen zum Erstellen und
+/// Verwalten von Schachfiguren, zur Umrechnung von Koordinaten in Vector3-Positionen und umgekehrt sowie zur
+/// Überprüfung, ob sich Schachfiguren auf einem bestimmten Quadrat befinden. Das Skript wird auch verwendet, um die
+/// Züge der Schachfiguren zu verwalten und zu überwachen, einschließlich der Anzeige der möglichen Züge und der
+/// Behandlung von Kollisionen zwischen Figuren. Sowie den aktuellen Spielzug zu beenden und an den anderen Spieler
+/// zu übergeben.
+/// </summary>
 [RequireComponent(typeof(SquareSelectorCreator))]
 public class Board : MonoBehaviour
 {
     public const int BOARD_SIZE = 8;
-
+    
+    /// <summary>
+    /// Es handelt sich hierbei um ein Empty Object, welches aufs Board ganz unten Links gesetzt wird.
+    /// Dies dient als Grundlage für das Gridsystem und für die kalkulation der einzelnen Positionen.
+    /// </summary>
     [SerializeField] private Transform bottomLeftSquareTransform;
     [SerializeField] private float squareSize;
 
@@ -37,12 +48,21 @@ public class Board : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Zur Vereinfachung der Bewegungen wurde ein 8x8 Koordinaten System erstellt, die in die jeweiligen Positionen
+    /// umgerechnet werden.
+    /// </summary>
     private void CreateGrid()
     {
         grid = new Piece[BOARD_SIZE, BOARD_SIZE];
     }
 
+    /// <summary>
+    /// Hier werden die Koordinaten in Vector3 Positionen umgerechnet. Grundlage hierfür ist die squareSize, die
+    /// 
+    /// </summary>
+    /// <param name="coords"></param>
+    /// <returns></returns>
     public Vector3 CalculatePositionFromCoords(Vector2Int coords)
     {
         return bottomLeftSquareTransform.position + new Vector3(coords.x * squareSize, 0f, coords.y * squareSize);
@@ -74,17 +94,19 @@ public class Board : MonoBehaviour
                 SelectPiece(piece);
         }
     }
-
-
-
+    
     private void SelectPiece(Piece piece)
     {
-        chessController.RemoveMovesEnablingAttakOnPieceOfType<King>(piece);
+        chessController.RemoveMovesEnablingAttakOnPieceOfType<KingBlack>(piece);
         selectedPiece = piece;
         List<Vector2Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);
     }
-
+    
+    /// <summary>
+    /// Sorgt dafür, dass die Möglichen Züge visuell angezeigt werden.
+    /// </summary>
+    /// <param name="selection"></param>
     private void ShowSelectionSquares(List<Vector2Int> selection)
     {
         Dictionary<Vector3, bool> squaresData = new Dictionary<Vector3, bool>();
@@ -184,7 +206,14 @@ public class Board : MonoBehaviour
         }
     }
     
-    
+    /// <summary>
+    /// IEnumerator Methoden werden genutzt um "Coroutine" starten zu können.
+    /// Diese Methode sollte genutzt werden, damit man die Animation genauer sieht. Sie hat am Ende nicht ganz so
+    /// funktioniert wie sie sollte.
+    /// </summary>
+    /// <param name="piece"></param>
+    /// <param name="waitTime"></param>
+    /// <returns></returns>
     private IEnumerator WaitAndTakePiece(Piece piece, float waitTime)
     {
         Camera.main.transform.position = cameraPosition;
@@ -194,7 +223,11 @@ public class Board : MonoBehaviour
         Camera.main.transform.rotation = cameraRotation;
         TakePiece(piece);
     }
-
+    /// <summary>
+    /// Wenn eine Figur geschlagen wurde oder ein Bauer auf die andere Seite schafft, wird diese Methode verwendet,
+    /// um in Physisch vom Board zu entfernen.
+    /// </summary>
+    /// <param name="piece"></param>
     private void TakePiece(Piece piece)
     {
         if (piece)
@@ -205,7 +238,11 @@ public class Board : MonoBehaviour
         }
     }
 
-    
+    /// <summary>
+    /// Methode wird aufgerufen, wenn ein Bauer es bis ans Ende eines Board schafft und zur Königin wird. Dabei wird
+    /// die Coroutine WaitAndTakePiece() aufgerufen.
+    /// </summary>
+    /// <param name="piece"></param>
     public void PromotePiece(Piece piece)
     {
         if (piece.CompareTag("Pawn"))
@@ -227,10 +264,12 @@ public class Board : MonoBehaviour
         }
         
     }
+    /// <summary>
+    /// Wenn das Spiel neu gestartet wird, erstellt diese Methode ein neues Grid für das Board.
+    /// </summary>
     internal void OnGameRestarted()
     {
         selectedPiece = null;
         CreateGrid();
     }
-
 }

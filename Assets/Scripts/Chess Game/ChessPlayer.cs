@@ -2,10 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Jede Farbe erhält ihren eigenen ChessPlayer, mit dem die unten beschriebenen Methoden ausführen kann.
+/// </summary>
 [System.Serializable]
 public class ChessPlayer
 {
+	/// <summary>
+	/// Die { get; set; } dienen dazu, um die jeweiligen Interaktionen mit den Variable zu bestimmen.
+	/// </summary>
 	public TeamColor team { get; set; }
 	public Board board { get; set; }
 	public List<Piece> activePieces { get; private set; }

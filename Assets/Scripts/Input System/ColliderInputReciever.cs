@@ -7,6 +7,7 @@ public class ColliderInputReciever : InputReciever
     private Vector3 clickPosition;
     void Update()
     {
+        // Es werden die Koordinaten des Mausklicks weitergegeben.
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
