@@ -196,7 +196,7 @@ public class Board : MonoBehaviour
                     //selectedPiece.MovePiece(piece.occupiedSquare + new Vector2Int(1, 3));
                     selectedPiece.animator.SetTrigger("Queen_kill");
                     piece.animator.SetTrigger("Rook_destroy");
-                    StartCoroutine(WaitAndTakePiece(piece, 5f));
+                    StartCoroutine(WaitAndTakePiece(piece, 2f));
                 }
             }
             else
